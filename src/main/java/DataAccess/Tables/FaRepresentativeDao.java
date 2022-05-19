@@ -17,7 +17,7 @@ public class FaRepresentativeDao{
 
     public HashMap<String, FArepresentative> getAll() {
         HashMap<String, FArepresentative> faReps = new HashMap<String, FArepresentative>();
-        String sql = "SELECT * FROM users JOIN FaRepresentatives ON users.username = FaRepresentatives.username";
+        String sql = "SELECT * FROM users JOIN FaRepresentatives ON users.usersUsername = FaRepresentatives.username";
 
         try {
             Connection conn = DBConnector.getConnection();
@@ -26,7 +26,7 @@ public class FaRepresentativeDao{
 
             // loop through the result set
             while (rs.next()) {
-                String userName = rs.getString("username");
+                String userName = rs.getString("usersUsername");
                 String name = rs.getString("name");
                 String pass = rs.getString("password");
                 faReps.put(userName,new FArepresentative(name,userName,pass));

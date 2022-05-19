@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 import java.util.Date;
-//import java.util.Date;
-//import java.sql.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AutoSignTest {
@@ -41,7 +39,7 @@ public class AutoSignTest {
         c.setSL(sl1);
 
         // activate the auto sign games in season league !
-        c.autoSignGames(s1.getSeasonID(),l1.getId(),sl1.getPolicy(),false);// deltee the flag
+        c.autoSignGames(s1.getSeasonID(),l1.getId(),sl1.getPolicy(),false);// delete the flag
 
         Date d1 = game1.getDate();
         Date d2 = game2.getDate();

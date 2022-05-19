@@ -18,7 +18,7 @@ public class RefereeDao{
 
     public HashMap<String,Referee> getAll() {
         HashMap<String,Referee> referees = new HashMap<String, Referee>();
-        String sql = "SELECT * FROM users JOIN referees ON users.username = referees.username";
+        String sql = "SELECT * FROM users JOIN referees ON users.usersUsername = referees.username";
 
         try {
             Connection conn = DBConnector.getConnection();
@@ -27,7 +27,7 @@ public class RefereeDao{
 
             // loop through the result set
             while (rs.next()) {
-                String refUserName = rs.getString("username");
+                String refUserName = rs.getString("usersUsername");
                 String refName = rs.getString("name");
                 String refPass = rs.getString("password");
                 referees.put(refUserName,new Referee(refName,refUserName,refPass));
