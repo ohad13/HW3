@@ -10,6 +10,6 @@ public class FArepresentative extends Subscriber{
 
     public boolean autoSignGames(String seasonYear, String league, AssignmentPolicy policy) {
         Controller c = Controller.getInstance();
-        return c.autoSignGames(seasonYear,league,policy,true);
+        return c.autoSignGames(seasonYear,league,policy);
     }
 }

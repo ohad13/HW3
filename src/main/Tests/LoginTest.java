@@ -2,6 +2,7 @@ import Domain.Controller;
 import Domain.Users.FArepresentative;
 import Domain.Users.Referee;
 import Domain.Users.User;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
@@ -21,6 +22,7 @@ public class LoginTest {
         assertEquals("1234", us1.getPassword());
 
     }
+
     @Test
     @DisplayName("test login with not exist user.")
     public void loginTest2() {
@@ -28,5 +30,4 @@ public class LoginTest {
         // user that does not exist
         assertNull(c.login("name", "password"));
     }
-
 }

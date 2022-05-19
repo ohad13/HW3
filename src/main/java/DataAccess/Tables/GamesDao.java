@@ -56,7 +56,7 @@ public class GamesDao{
                     parsedDate = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy").parse(date);
                 }
 
-                Game newGame = new Game(gameID, (java.sql.Date) parsedDate, teamMap.get(home), teamMap.get(away), seasonLeagueID, field);
+                Game newGame = new Game(gameID, (Date) parsedDate, teamMap.get(home), teamMap.get(away), seasonLeagueID, field);
                 res.put(gameID,newGame);
 
                 // add games to the teams

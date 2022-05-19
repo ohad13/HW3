@@ -1,6 +1,5 @@
 package Domain;
 
-//import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -31,7 +30,7 @@ public class Season {
         }
     }
 
-    public void addSeasonLeague(SeasonLeague newSL) {
+    public void addSeasonLeague(SeasonLeague newSL) { // no need unit testing -> get data from DB
         String[] ids = newSL.getId().split("_");
         if (!ids[0].equals(this.getSeasonID()))
             return;

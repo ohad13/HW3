@@ -15,7 +15,7 @@ import java.util.*;
 
 public class Controller {
 
-    // todo: make private?
+
     HashMap<String, User> usersMap;
     HashMap<String, Referee> refereeMap;
     HashMap<String, Game> gameMap; //<game id,game>
@@ -26,20 +26,16 @@ public class Controller {
     SystemLogger logger;
     DataAccessController dataControl;
 
+    public DataAccessController getDataControl() {
+        return dataControl;
+    }
+
     private static Controller instance = null;
 
     public static Controller getInstance() {
         if (instance == null) {
             instance = new Controller();
         }
-        return instance;
-    }
-
-    public static Controller getInstance1() {
-        instance = new Controller(1);// call for the second constructor.
-        instance.usersMap = new HashMap<String, User>();
-        instance.seasonLeagues = new HashMap<String, SeasonLeague>();
-        instance.refereeMap = new HashMap<String, Referee>();
         return instance;
     }
 
@@ -53,7 +49,28 @@ public class Controller {
         this.usersMap = dataControl.getUsersMap();
     }
 
-    private Controller(int x) {
+    public HashMap<String, User> getUsersMap() {
+        return usersMap;
+    }
+
+    public HashMap<String, Referee> getRefereeMap() {
+        return refereeMap;
+    }
+
+    public HashMap<String, Game> getGameMap() {
+        return gameMap;
+    }
+
+    public HashMap<String, SeasonLeague> getSeasonLeagues() {
+        return seasonLeagues;
+    }
+
+    public HashMap<String, TeamSeason> getTeamSeasonMap() {
+        return teamSeasonMap;
+    }
+
+    public HashMap<String, Team> getTeamsMap() {
+        return teamsMap;
     }
 
     public Game getGameById(String gameID) {
@@ -135,7 +152,7 @@ public class Controller {
      * param- policy: assign according to this policy.
      * Goal - assign all games belong to this season-league according to the policy given.
      **/
-    public boolean autoSignGames(String season, String league, AssignmentPolicy policy, boolean writeToDB) {
+    public boolean autoSignGames(String season, String league, AssignmentPolicy policy) {
         String key = league + "_" + season;
         if (seasonLeagues.containsKey(key)) {
             SeasonLeague seasonLeague = seasonLeagues.get(key);
@@ -144,7 +161,7 @@ public class Controller {
             boolean refAndDates = autoSignRefereeAndDates(games, d1, policy);
             boolean field = autoSignField(games);
 
-            if (refAndDates && field && writeToDB) { // insert to DB the changes.
+            if (refAndDates && field) { // insert to DB the changes.
                 dataControl.updateRefereeGamesDB(refereeMap);
                 dataControl.updateGamesDB(gameMap);
                 return true;
@@ -159,24 +176,5 @@ public class Controller {
             return usersMap.get(username);
         }
         return null;
-    }
-
-    // ----------------------------------------------------------------------------------------
-    /* the next functions it used only by the testers !*/
-    public void setUsers(String name, User user) {
-        if (!usersMap.containsKey(name)) {
-            usersMap.put(name, user);
-        }
-    }
-
-    public void setSL(SeasonLeague SL) {
-        String key = SL.getId();
-        if (!seasonLeagues.containsKey(key)) {
-            seasonLeagues.put(key, SL);
-        }
-    }
-
-    public void setRef(Referee ref) {
-        refereeMap.put(ref.getName(), ref);
     }
 }

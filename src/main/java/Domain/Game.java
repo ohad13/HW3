@@ -2,9 +2,8 @@ package Domain;
 
 import Domain.Users.*;
 
-import java.sql.Date;
 import java.util.ArrayList;
-//import java.util.Date;
+import java.util.Date;
 
 public class Game {
     public String id;
@@ -16,7 +15,7 @@ public class Game {
     String field;
     EventLogger gameLogger;
 
-    public void setDate(java.util.Date date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -34,7 +33,7 @@ public class Game {
         this.referees = new ArrayList<Referee>();
     }
 
-    public java.util.Date getDate() {
+    public Date getDate() {
         return date;
     }
 
