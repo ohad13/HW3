@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-//import java.sql.Date;
 import java.util.Random;
 import java.util.*;
 
@@ -17,10 +16,10 @@ public class Controller {
 
     HashMap<String, User> usersMap;
     HashMap<String, Referee> refereeMap;
-    HashMap<String, Game> gameMap; //<game id,game>
-    HashMap<String, SeasonLeague> seasonLeagues; //<season league id, season league>
-    HashMap<String, TeamSeason> teamSeasonMap; // todo: might need to come for database
-    HashMap<String, Team> teamsMap; // todo: might need to come for database
+    HashMap<String, Game> gameMap;
+    HashMap<String, SeasonLeague> seasonLeagues;
+    HashMap<String, TeamSeason> teamSeasonMap;
+    HashMap<String, Team> teamsMap;
     HashMap<String, Admin> admins;
     SystemLogger logger;
     DataAccessController dataControl;

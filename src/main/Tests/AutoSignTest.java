@@ -35,8 +35,6 @@ public class AutoSignTest {
                 assertEquals(3,game.getReferees().size());
             }
         }
-
-        System.out.println(Arrays.toString(games));
     }
 
     @Test
@@ -59,6 +57,13 @@ public class AutoSignTest {
                 startCopy = cal.getTime();
             }
         }
-        System.out.println(Arrays.toString(games));
+    }
+
+    @Test
+    @DisplayName("do not update twice the same assignment")
+    public void AutoSignTest3() {
+
+        String gameAssigned = App.autoSignGames("2", "2", new AssignmentPolicy("serial"));// delete the flag
+        assertTrue(gameAssigned.equals(""));
     }
 }
