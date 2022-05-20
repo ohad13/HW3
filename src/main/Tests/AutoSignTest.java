@@ -1,6 +1,7 @@
 
 import Domain.*;
 import Service.UserApplication;
+import org.apache.commons.lang3.time.StopWatch;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,6 @@ public class AutoSignTest {
     @Test
     @DisplayName("test serial sign.")
     public void AutoSignTest2() {
-
         String gameAssigned = App.autoSignGames("2", "2", new AssignmentPolicy("serial"));// delete the flag
         String[] games = gameAssigned.split(",");
 
@@ -62,7 +62,6 @@ public class AutoSignTest {
     @Test
     @DisplayName("do not update twice the same assignment")
     public void AutoSignTest3() {
-
         String gameAssigned = App.autoSignGames("2", "2", new AssignmentPolicy("serial"));// delete the flag
         assertTrue(gameAssigned.equals(""));
     }
