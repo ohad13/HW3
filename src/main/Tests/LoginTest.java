@@ -1,8 +1,5 @@
-import Domain.Controller;
-import Domain.Users.FArepresentative;
-import Domain.Users.Referee;
 import Domain.Users.User;
-import org.junit.Before;
+import Service.UserApplication;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
@@ -10,24 +7,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class LoginTest {
+    UserApplication App = new UserApplication();
 
     @Test
-    @DisplayName("test login with exists users.")
+    @DisplayName("test login with exist user.")
     public void loginTest1() {
-        Controller c = Controller.getInstance();
-
-        // check the first user
-        User us1 = c.login("dorle22", "1234");
+        User us1 = App.login("dorle22", "1234");
         assertEquals("dorle22", us1.getUserName());
         assertEquals("1234", us1.getPassword());
-
     }
 
     @Test
-    @DisplayName("test login with not exist user.")
+    @DisplayName("test login with none exist user.")
     public void loginTest2() {
-        Controller c = Controller.getInstance();
-        // user that does not exist
-        assertNull(c.login("name", "password"));
+        assertNull(App.login("none", "exist"));
     }
 }

@@ -9,4 +9,8 @@ public class Guest extends User {
     public String getName() {
         return this.name;
     }
+    @Override
+    public boolean isFa() {
+        return false;
+    }
 }

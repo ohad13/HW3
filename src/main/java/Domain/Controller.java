@@ -15,7 +15,6 @@ import java.util.*;
 
 public class Controller {
 
-
     HashMap<String, User> usersMap;
     HashMap<String, Referee> refereeMap;
     HashMap<String, Game> gameMap; //<game id,game>
@@ -100,12 +99,13 @@ public class Controller {
     }
 
     public boolean autoSignRefereeAndDates(ArrayList<Game> games, Date start, AssignmentPolicy policy) {
+        ArrayList<Game> gamesRes = new ArrayList<>();
         int amountTime = 1;
         if ("random".equals(policy.getValue())) {// shuffle games
             Random rand = new Random();
             amountTime = rand.nextInt(4) + 1;
-        } else if ("serial".equals(policy.getValue())) {}
-        else {
+        } else if ("serial".equals(policy.getValue())) {
+        } else {
             return false;
         }
         Date startCopy = (Date) start.clone();
@@ -120,12 +120,10 @@ public class Controller {
                 }
                 game.setDate(startCopy);// todo check !
                 cal.add(Calendar.DAY_OF_MONTH, amountTime);
-                startCopy =  cal.getTime();
+                startCopy = cal.getTime();
             } catch (Exception e) {
-                //e.printStackTrace();
-                game.setDate(null);
-                System.out.println("in error !!! ---------------------");
-                //return false;
+                e.printStackTrace();
+                return false;
             }
         }
         // assign referees to games
@@ -152,7 +150,8 @@ public class Controller {
      * param- policy: assign according to this policy.
      * Goal - assign all games belong to this season-league according to the policy given.
      **/
-    public boolean autoSignGames(String season, String league, AssignmentPolicy policy) {
+    public String autoSignGames(String season, String league, AssignmentPolicy policy) {
+        String res = "";
         String key = league + "_" + season;
         if (seasonLeagues.containsKey(key)) {
             SeasonLeague seasonLeague = seasonLeagues.get(key);
@@ -164,11 +163,11 @@ public class Controller {
             if (refAndDates && field) { // insert to DB the changes.
                 dataControl.updateRefereeGamesDB(refereeMap);
                 dataControl.updateGamesDB(gameMap);
-                return true;
+                return res; // todo
             }
         }
         // if there is no season-league in the system.
-        return false;
+        return "";
     }
 
     public User login(String username, String password) {

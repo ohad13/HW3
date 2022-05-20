@@ -9,15 +9,12 @@ import Domain.Users.Referee;
 import Domain.Users.User;
 
 public class UserApplication {
-
-    Controller controller; // api to domain layer
-
-    public UserApplication(Controller controller) {
-        this.controller = controller;
-    }
+    User currentUser = null;
 
     // todo: NO NEEDED!!
     public boolean SignUpRefereeToGame(String userName, String userPass, String gameID, String refID) {
+
+        Controller controller = Controller.getInstance();
         // sign in FA representative to system
         FArepresentative fa = (FArepresentative) controller.login(userName, userPass);
         if (fa == null) {
@@ -30,16 +27,21 @@ public class UserApplication {
         return controller.assignRefereeToGame(game, ref);
     }
 
-    public boolean autoSignGames(String username, String password, String seasonYear, String league, AssignmentPolicy policy){
+    public String autoSignGames(String seasonYear, String league, AssignmentPolicy policy) {
         // sign in FA representative to system
-        FArepresentative fa = (FArepresentative) controller.login(username,password); // todo: login first and check
-        if (fa == null) {
-            return false;
+        if (currentUser == null) {
+            return "";
         }
-        return fa.autoSignGames(seasonYear,league,policy);
+        if (currentUser.isFa()) {
+            FArepresentative fa = (FArepresentative) currentUser;
+            return fa.autoSignGames(seasonYear, league, policy);
+        }
+        return "";
     }
 
     public User login(String username, String password) {
-        return controller.login(username,password);
+        Controller controller = Controller.getInstance();
+        this.currentUser = controller.login(username, password);
+        return currentUser;
     }
 }

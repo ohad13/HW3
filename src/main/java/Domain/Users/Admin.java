@@ -4,4 +4,9 @@ public class Admin extends Subscriber {
     public Admin(String name, String userName, String password) {
         super(name, userName, password);
     }
+
+    @Override
+    public boolean isFa() {
+        return false;
+    }
 }

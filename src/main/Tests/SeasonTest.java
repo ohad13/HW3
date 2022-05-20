@@ -3,8 +3,8 @@ import Domain.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-//import java.util.Date;
-import java.sql.Date;
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SeasonTest {
@@ -61,6 +61,7 @@ class SeasonTest {
         s1.addTeamToSeason(ts2);
         assertEquals(2, s1.getTeamsInSeason().size());
     }
+
     @Test
     @DisplayName("test adding same team-season.")
     void sameTeamsTest() {

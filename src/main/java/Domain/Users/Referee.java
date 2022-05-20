@@ -59,4 +59,8 @@ public class Referee extends Subscriber {
     public Set<java.util.Date> getDates() {
         return dates;
     }
+    @Override
+    public boolean isFa() {
+        return false;
+    }
 }

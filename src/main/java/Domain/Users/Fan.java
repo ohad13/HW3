@@ -3,4 +3,8 @@ public class Fan extends Subscriber{
     public Fan(String name, String userName, String password) {
         super(name, userName, password);
     }
+    @Override
+    public boolean isFa() {
+        return false;
+    }
 }

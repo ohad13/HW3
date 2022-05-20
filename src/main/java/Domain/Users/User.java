@@ -11,6 +11,7 @@ public abstract class User {
         this.password = password;
     }
 
+    public abstract boolean isFa();
 
     public String getName() {
         return name;

@@ -8,8 +8,12 @@ public class FArepresentative extends Subscriber{
         super(name, userName, password);
     }
 
-    public boolean autoSignGames(String seasonYear, String league, AssignmentPolicy policy) {
+    public String autoSignGames(String seasonYear, String league, AssignmentPolicy policy) {
         Controller c = Controller.getInstance();
         return c.autoSignGames(seasonYear,league,policy);
+    }
+    @Override
+    public boolean isFa() {
+        return true;
     }
 }
