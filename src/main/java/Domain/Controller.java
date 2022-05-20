@@ -98,15 +98,15 @@ public class Controller {
         return true;
     }
 
-    public boolean autoSignRefereeAndDates(ArrayList<Game> games, Date start, AssignmentPolicy policy) {
-        ArrayList<Game> gamesRes = new ArrayList<>();
+    public ArrayList<String> autoSignRefereeAndDates(ArrayList<Game> games, Date start, AssignmentPolicy policy) {
+        ArrayList<String> gamesRes = new ArrayList<>();
         int amountTime = 1;
         if ("random".equals(policy.getValue())) {// shuffle games
             Random rand = new Random();
             amountTime = rand.nextInt(4) + 1;
         } else if ("serial".equals(policy.getValue())) {
         } else {
-            return false;
+            return null;
         }
         Date startCopy = (Date) start.clone();
         Calendar cal = Calendar.getInstance();
@@ -121,9 +121,10 @@ public class Controller {
                 game.setDate(startCopy);// todo check !
                 cal.add(Calendar.DAY_OF_MONTH, amountTime);
                 startCopy = cal.getTime();
+                gamesRes.add(game.getId());
             } catch (Exception e) {
                 e.printStackTrace();
-                return false;
+                return null;
             }
         }
         // assign referees to games
@@ -141,7 +142,7 @@ public class Controller {
                 }
             }
         }
-        return true;
+        return gamesRes;
     }
 
     /**
@@ -151,19 +152,22 @@ public class Controller {
      * Goal - assign all games belong to this season-league according to the policy given.
      **/
     public String autoSignGames(String season, String league, AssignmentPolicy policy) {
-        String res = "";
+        StringBuilder res = new StringBuilder();
         String key = league + "_" + season;
         if (seasonLeagues.containsKey(key)) {
             SeasonLeague seasonLeague = seasonLeagues.get(key);
             ArrayList<Game> games = seasonLeague.getGames();
             Date d1 = seasonLeague.getSeason().getStartDate();
-            boolean refAndDates = autoSignRefereeAndDates(games, d1, policy);
+            ArrayList<String> gamesChanged = autoSignRefereeAndDates(games, d1, policy);
             boolean field = autoSignField(games);
 
-            if (refAndDates && field) { // insert to DB the changes.
+            if (gamesChanged.size() > 0 && field) { // insert to DB the changes.
                 dataControl.updateRefereeGamesDB(refereeMap);
                 dataControl.updateGamesDB(gameMap);
-                return res; // todo
+                for(String gID : gamesChanged){
+                    res.append(gID).append(",");
+                }
+                return res.toString();
             }
         }
         // if there is no season-league in the system.

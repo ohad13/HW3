@@ -44,4 +44,6 @@ public class UserApplication {
         this.currentUser = controller.login(username, password);
         return currentUser;
     }
+
+
 }

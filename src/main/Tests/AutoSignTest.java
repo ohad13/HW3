@@ -1,9 +1,11 @@
 
 import Domain.*;
 import Service.UserApplication;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,28 +13,38 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AutoSignTest {
-    UserApplication App = new UserApplication();
+    static UserApplication App = new UserApplication();
     Controller c = Controller.getInstance();
+
+    @BeforeAll
+    public static void init(){
+        App.login("ohad","miller");
+    }
 
     @Test
     @DisplayName("test random sign.")
     public void AutoSignTest1() {
-        App.autoSignGames("1", "1", new AssignmentPolicy("random"));
+        String gameAssigned = App.autoSignGames("1", "1", new AssignmentPolicy("random"));
+        String[] games = gameAssigned.split(",");
 
         HashMap<String, Game> gameMap = c.getDataControl().getGameMap();
         for (Game game : gameMap.values()) {
             if (c.getSeasonLeagues().get(game.getSeasonLeague()).getSeason().getSeasonID().equals("1") && c.getSeasonLeagues().get(game.getSeasonLeague()).getLeague().getId().equals("1")) {
                 assertNotNull(game.getDate());
                 assertNotNull(game.getField());
-                assertEquals(3, game.getReferees().size());
+                assertEquals(game.getReferees().size(), 3);
             }
         }
+
+        System.out.println(Arrays.toString(games));
     }
 
     @Test
     @DisplayName("test serial sign.")
     public void AutoSignTest2() {
-        App.autoSignGames("2", "2", new AssignmentPolicy("serial"));// delete the flag
+
+        String gameAssigned = App.autoSignGames("2", "2", new AssignmentPolicy("serial"));// delete the flag
+        String[] games = gameAssigned.split(",");
 
         HashMap<String, Game> gameMap = c.getDataControl().getGameMap();
         Date start = c.getSeasonLeagues().get("2_2").getSeason().getStartDate();
@@ -47,5 +59,6 @@ public class AutoSignTest {
                 startCopy = cal.getTime();
             }
         }
+        System.out.println(Arrays.toString(games));
     }
 }
