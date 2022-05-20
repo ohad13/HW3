@@ -1,0 +1,213 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DataAccessController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">DataAccess</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DataAccessController (DataAccess)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DataAccessController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (10/ 15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76.9%
+  </span>
+  <span class="absValue">
+    (50/ 65)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package DataAccess;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Domain.*;
+<i>4</i>&nbsp;import Domain.Users.FArepresentative;
+<i>5</i>&nbsp;import Domain.Users.Referee;
+<i>6</i>&nbsp;import Domain.Users.User;
+<i>7</i>&nbsp;import DataAccess.Tables.*;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.sql.SQLException;
+<i>10</i>&nbsp;import java.text.ParseException;
+<i>11</i>&nbsp;import java.util.HashMap;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;public class DataAccessController {
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;    static DataAccessController instance = null;</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    // DB tables
+<i>18</i>&nbsp;    FaRepresentativeDao faDao;
+<i>19</i>&nbsp;    GamesDao gamesDao;
+<i>20</i>&nbsp;    LeaguesDao leaguesDao;
+<i>21</i>&nbsp;    RefereeDao refereeDao;
+<i>22</i>&nbsp;    SeasonDao seasonDao;
+<i>23</i>&nbsp;    SeasonLeagueDao seasonLeagueDao;
+<i>24</i>&nbsp;    TeamsDao teamsDao;
+<i>25</i>&nbsp;    TeamSeasonDao teamSeasonDao;
+<i>26</i>&nbsp;    UsersDao usersDao;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    // data
+<i>29</i>&nbsp;    HashMap&lt;String, TeamSeason&gt; teamSeasonMap;
+<i>30</i>&nbsp;    HashMap&lt;String, Team&gt; teamsMap;
+<i>31</i>&nbsp;    HashMap&lt;String, Game&gt; gameMap;
+<i>32</i>&nbsp;    HashMap&lt;String, Season&gt; seasonMap;
+<i>33</i>&nbsp;    HashMap&lt;String, SeasonLeague&gt; seasonLeagueMap;
+<i>34</i>&nbsp;    HashMap&lt;String, Referee&gt; refereeMap;
+<i>35</i>&nbsp;    HashMap&lt;String, FArepresentative&gt; faMap;
+<i>36</i>&nbsp;    HashMap&lt;String, League&gt; leaguesMap;
+<i>37</i>&nbsp;    HashMap&lt;String, User&gt; usersMap;
+<i>38</i>&nbsp;
+<b class="fc"><i>39</i>&nbsp;    private DataAccessController() throws SQLException, ParseException {</b>
+<b class="fc"><i>40</i>&nbsp;        faDao = new FaRepresentativeDao();</b>
+<b class="fc"><i>41</i>&nbsp;        gamesDao = new GamesDao();</b>
+<b class="fc"><i>42</i>&nbsp;        leaguesDao = new LeaguesDao();</b>
+<b class="fc"><i>43</i>&nbsp;        refereeDao = new RefereeDao();</b>
+<b class="fc"><i>44</i>&nbsp;        seasonDao = new SeasonDao();</b>
+<b class="fc"><i>45</i>&nbsp;        seasonLeagueDao = new SeasonLeagueDao();</b>
+<b class="fc"><i>46</i>&nbsp;        teamsDao = new TeamsDao();</b>
+<b class="fc"><i>47</i>&nbsp;        leaguesDao = new LeaguesDao();</b>
+<b class="fc"><i>48</i>&nbsp;        teamSeasonDao = new TeamSeasonDao();</b>
+<b class="fc"><i>49</i>&nbsp;        usersDao = new UsersDao();</b>
+<i>50</i>&nbsp;
+<b class="fc"><i>51</i>&nbsp;        teamsMap = teamsDao.getAll();</b>
+<b class="fc"><i>52</i>&nbsp;        seasonMap = seasonDao.getAll();</b>
+<b class="fc"><i>53</i>&nbsp;        teamSeasonMap = teamSeasonDao.getAll(seasonMap,teamsMap);</b>
+<b class="fc"><i>54</i>&nbsp;        gameMap = gamesDao.getAll(teamSeasonMap);</b>
+<b class="fc"><i>55</i>&nbsp;        leaguesMap = leaguesDao.getAll();</b>
+<b class="fc"><i>56</i>&nbsp;        seasonLeagueMap = seasonLeagueDao.getAll(gameMap,seasonMap,leaguesMap);</b>
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;        refereeMap = refereeDao.getAll();</b>
+<b class="fc"><i>59</i>&nbsp;        updateRefereeGames(refereeMap,gameMap);</b>
+<i>60</i>&nbsp;
+<b class="fc"><i>61</i>&nbsp;        faMap = faDao.getAll();</b>
+<b class="fc"><i>62</i>&nbsp;        usersMap = usersDao.getAll(refereeMap,faMap);</b>
+<b class="fc"><i>63</i>&nbsp;    }</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    private void updateRefereeGames(HashMap&lt;String, Referee&gt; refereeMap, HashMap&lt;String, Game&gt; gameMap) {
+<b class="fc"><i>66</i>&nbsp;        for(Referee ref : refereeMap.values()){</b>
+<b class="fc"><i>67</i>&nbsp;            for(String gameID : ref.getGames()){</b>
+<b class="fc"><i>68</i>&nbsp;                ref.setDate(gameMap.get(gameID).getDate());</b>
+<b class="fc"><i>69</i>&nbsp;                gameMap.get(gameID).setReferee(ref);</b>
+<b class="fc"><i>70</i>&nbsp;            }</b>
+<b class="fc"><i>71</i>&nbsp;        }</b>
+<b class="fc"><i>72</i>&nbsp;    }</b>
+<i>73</i>&nbsp;
+<b class="fc"><i>74</i>&nbsp;    public HashMap&lt;String, User&gt; getUsersMap() {</b>
+<b class="fc"><i>75</i>&nbsp;        return usersMap;</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<b class="fc"><i>78</i>&nbsp;    public static DataAccessController getInstance(){</b>
+<b class="fc"><i>79</i>&nbsp;        if(instance == null){</b>
+<b class="fc"><i>80</i>&nbsp;            try {</b>
+<b class="fc"><i>81</i>&nbsp;                instance = new DataAccessController();</b>
+<b class="nc"><i>82</i>&nbsp;            } catch (SQLException e) {</b>
+<b class="nc"><i>83</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>84</i>&nbsp;            } catch (ParseException e) {</b>
+<b class="fc"><i>85</i>&nbsp;                e.printStackTrace();</b>
+<b class="fc"><i>86</i>&nbsp;            }</b>
+<b class="fc"><i>87</i>&nbsp;        }</b>
+<b class="fc"><i>88</i>&nbsp;        return instance;</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<b class="nc"><i>91</i>&nbsp;    public HashMap&lt;String, TeamSeason&gt; getTeamSeasonMap() {</b>
+<b class="nc"><i>92</i>&nbsp;        return teamSeasonMap;</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<b class="nc"><i>95</i>&nbsp;    public HashMap&lt;String, Team&gt; getTeamsMap() {</b>
+<b class="nc"><i>96</i>&nbsp;        return teamsMap;</b>
+<i>97</i>&nbsp;    }
+<i>98</i>&nbsp;
+<b class="fc"><i>99</i>&nbsp;    public HashMap&lt;String, Game&gt; getGameMap() {</b>
+<b class="fc"><i>100</i>&nbsp;        return gameMap;</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<b class="nc"><i>103</i>&nbsp;    public HashMap&lt;String, Season&gt; getSeasonMap() {</b>
+<b class="nc"><i>104</i>&nbsp;        return seasonMap;</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<b class="fc"><i>107</i>&nbsp;    public HashMap&lt;String, SeasonLeague&gt; getSeasonLeagueMap() {</b>
+<b class="fc"><i>108</i>&nbsp;        return seasonLeagueMap;</b>
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<b class="fc"><i>111</i>&nbsp;    public HashMap&lt;String, Referee&gt; getRefereeMap() {</b>
+<b class="fc"><i>112</i>&nbsp;        return refereeMap;</b>
+<i>113</i>&nbsp;    }
+<i>114</i>&nbsp;
+<b class="nc"><i>115</i>&nbsp;    public HashMap&lt;String, FArepresentative&gt; getFaMap() {</b>
+<b class="nc"><i>116</i>&nbsp;        return faMap;</b>
+<i>117</i>&nbsp;    }
+<i>118</i>&nbsp;
+<b class="nc"><i>119</i>&nbsp;    public HashMap&lt;String, League&gt; getLeaguesMap() {</b>
+<b class="nc"><i>120</i>&nbsp;        return leaguesMap;</b>
+<i>121</i>&nbsp;    }
+<i>122</i>&nbsp;
+<b class="nc"><i>123</i>&nbsp;    public void updateRefereeGamesDB(HashMap&lt;String, Referee&gt; refereeMap) {</b>
+<b class="fc"><i>124</i>&nbsp;        refereeDao.updateRefereeGameDB(refereeMap);</b>
+<b class="fc"><i>125</i>&nbsp;    }</b>
+<i>126</i>&nbsp;
+<b class="nc"><i>127</i>&nbsp;    public void updateGamesDB(HashMap&lt;String, Game&gt; gameMap) {</b>
+<b class="fc"><i>128</i>&nbsp;        gamesDao.updateGamesDB(gameMap);</b>
+<b class="fc"><i>129</i>&nbsp;    }</b>
+<i>130</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-05-20 11:07</div>
+</div>
+</body>
+</html>

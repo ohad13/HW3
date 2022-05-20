@@ -32,7 +32,7 @@ public class AutoSignTest {
             if (c.getSeasonLeagues().get(game.getSeasonLeague()).getSeason().getSeasonID().equals("1") && c.getSeasonLeagues().get(game.getSeasonLeague()).getLeague().getId().equals("1")) {
                 assertNotNull(game.getDate());
                 assertNotNull(game.getField());
-                assertEquals(game.getReferees().size(), 3);
+                assertEquals(3,game.getReferees().size());
             }
         }
 

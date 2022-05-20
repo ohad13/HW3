@@ -13,10 +13,6 @@ import java.util.HashMap;
 
 public class TeamSeasonDao{
 
-//    public TeamSeason get(String id) {
-//
-//    }
-
     public HashMap<String, TeamSeason> getAll(HashMap<String, Season> seasonMap, HashMap<String,Team> teamsMap){
 
         HashMap<String, TeamSeason> teamSeasonMap = new HashMap<String, TeamSeason>();
@@ -46,19 +42,4 @@ public class TeamSeasonDao{
         }
         return teamSeasonMap;
     }
-//
-//    @Override
-//    public void save(Object o) throws SQLException {
-//
-//    }
-//
-//    @Override
-//    public void update(Object o, String[] params) {
-//
-//    }
-//
-//    @Override
-//    public void delete(Object o) {
-//
-//    }
 }

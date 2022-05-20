@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LeaguesDao</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">DataAccess.Tables</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LeaguesDao (DataAccess.Tables)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LeaguesDao</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (14/ 16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package DataAccess.Tables;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import DataAccess.DBConnector;
+<i>4</i>&nbsp;import Domain.League;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.sql.Connection;
+<i>7</i>&nbsp;import java.sql.ResultSet;
+<i>8</i>&nbsp;import java.sql.SQLException;
+<i>9</i>&nbsp;import java.sql.Statement;
+<i>10</i>&nbsp;import java.util.HashMap;
+<i>11</i>&nbsp;
+<b class="fc"><i>12</i>&nbsp;public class LeaguesDao{</b>
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;//    public League get(String id) {
+<i>15</i>&nbsp;//        try {
+<i>16</i>&nbsp;//            Connection conn = DBConnector.getConnection();
+<i>17</i>&nbsp;//            // create league and season from DB
+<i>18</i>&nbsp;//            String sqlLeague = &quot;SELECT * FROM leagues WHERE id = &quot;+id;
+<i>19</i>&nbsp;//            Statement stmtLeague = conn.createStatement();
+<i>20</i>&nbsp;//            ResultSet rsLeague = stmtLeague.executeQuery(sqlLeague);
+<i>21</i>&nbsp;//            while (rsLeague.next()) {
+<i>22</i>&nbsp;//                String sleagueID = rsLeague.getString(&quot;id&quot;);
+<i>23</i>&nbsp;//                String sleagueName = rsLeague.getString(&quot;name&quot;);
+<i>24</i>&nbsp;//                League newL = new League(sleagueID,sleagueName);
+<i>25</i>&nbsp;//                return newL;
+<i>26</i>&nbsp;//            }
+<i>27</i>&nbsp;//
+<i>28</i>&nbsp;//        } catch (SQLException throwables) {
+<i>29</i>&nbsp;//            throwables.printStackTrace();
+<i>30</i>&nbsp;//        }
+<i>31</i>&nbsp;//        return null;
+<i>32</i>&nbsp;//    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public HashMap&lt;String, League&gt; getAll() {
+<b class="fc"><i>35</i>&nbsp;        HashMap&lt;String,League&gt; res = new HashMap&lt;String, League&gt;();</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;        try {
+<b class="fc"><i>38</i>&nbsp;            Connection conn = DBConnector.getConnection();</b>
+<i>39</i>&nbsp;            // create league and season from DB
+<b class="fc"><i>40</i>&nbsp;            String sqlLeague = &quot;SELECT * FROM leagues&quot;;</b>
+<b class="fc"><i>41</i>&nbsp;            Statement stmt = conn.createStatement();</b>
+<b class="fc"><i>42</i>&nbsp;            ResultSet rs = stmt.executeQuery(sqlLeague);</b>
+<b class="fc"><i>43</i>&nbsp;            while (rs.next()) {</b>
+<b class="fc"><i>44</i>&nbsp;                String leagueID = rs.getString(&quot;id&quot;);</b>
+<b class="fc"><i>45</i>&nbsp;                String leagueName = rs.getString(&quot;name&quot;);</b>
+<b class="fc"><i>46</i>&nbsp;                League newL = new League(leagueID,leagueName);</b>
+<b class="fc"><i>47</i>&nbsp;                res.put(leagueID,newL);</b>
+<b class="fc"><i>48</i>&nbsp;            }</b>
+<i>49</i>&nbsp;
+<b class="nc"><i>50</i>&nbsp;        } catch (SQLException throwables) {</b>
+<b class="nc"><i>51</i>&nbsp;            throwables.printStackTrace();</b>
+<b class="fc"><i>52</i>&nbsp;        }</b>
+<b class="fc"><i>53</i>&nbsp;        return res;</b>
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;//    @Override
+<i>57</i>&nbsp;//    public HashMap getAll() {
+<i>58</i>&nbsp;//
+<i>59</i>&nbsp;//    }
+<i>60</i>&nbsp;//
+<i>61</i>&nbsp;//    @Override
+<i>62</i>&nbsp;//    public void save(Object o) throws SQLException {
+<i>63</i>&nbsp;//
+<i>64</i>&nbsp;//    }
+<i>65</i>&nbsp;//
+<i>66</i>&nbsp;//    @Override
+<i>67</i>&nbsp;//    public void update(Object o, String[] params) {
+<i>68</i>&nbsp;//
+<i>69</i>&nbsp;//    }
+<i>70</i>&nbsp;//
+<i>71</i>&nbsp;//    @Override
+<i>72</i>&nbsp;//    public void delete(Object o) {
+<i>73</i>&nbsp;//
+<i>74</i>&nbsp;//    }
+<i>75</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-05-20 11:07</div>
+</div>
+</body>
+</html>

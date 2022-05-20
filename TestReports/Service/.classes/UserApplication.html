@@ -1,0 +1,132 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UserApplication</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UserApplication (Service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserApplication</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (9/ 18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import Domain.AssignmentPolicy;
+<i>5</i>&nbsp;import Domain.Controller;
+<i>6</i>&nbsp;import Domain.Game;
+<i>7</i>&nbsp;import Domain.Users.FArepresentative;
+<i>8</i>&nbsp;import Domain.Users.Referee;
+<i>9</i>&nbsp;import Domain.Users.User;
+<i>10</i>&nbsp;
+<b class="fc"><i>11</i>&nbsp;public class UserApplication {</b>
+<b class="fc"><i>12</i>&nbsp;    User currentUser = null;</b>
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    // todo: NO NEEDED!!
+<i>15</i>&nbsp;    public boolean SignUpRefereeToGame(String userName, String userPass, String gameID, String refID) {
+<i>16</i>&nbsp;
+<b class="nc"><i>17</i>&nbsp;        Controller controller = Controller.getInstance();</b>
+<i>18</i>&nbsp;        // sign in FA representative to system
+<b class="nc"><i>19</i>&nbsp;        FArepresentative fa = (FArepresentative) controller.login(userName, userPass);</b>
+<b class="nc"><i>20</i>&nbsp;        if (fa == null) {</b>
+<b class="nc"><i>21</i>&nbsp;            return false;</b>
+<i>22</i>&nbsp;        }
+<i>23</i>&nbsp;
+<b class="nc"><i>24</i>&nbsp;        Game game = controller.getGameById(gameID);</b>
+<b class="nc"><i>25</i>&nbsp;        Referee ref = controller.getRefereeById(refID);</b>
+<i>26</i>&nbsp;
+<b class="nc"><i>27</i>&nbsp;        return controller.assignRefereeToGame(game, ref);</b>
+<i>28</i>&nbsp;    }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    public String autoSignGames(String seasonYear, String league, AssignmentPolicy policy) {
+<i>31</i>&nbsp;        // sign in FA representative to system
+<b class="fc"><i>32</i>&nbsp;        if (currentUser == null) {</b>
+<b class="nc"><i>33</i>&nbsp;            return &quot;&quot;;</b>
+<i>34</i>&nbsp;        }
+<b class="fc"><i>35</i>&nbsp;        if (currentUser.isFa()) {</b>
+<b class="fc"><i>36</i>&nbsp;            FArepresentative fa = (FArepresentative) currentUser;</b>
+<b class="fc"><i>37</i>&nbsp;            return fa.autoSignGames(seasonYear, league, policy);</b>
+<i>38</i>&nbsp;        }
+<b class="nc"><i>39</i>&nbsp;        return &quot;&quot;;</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public User login(String username, String password) {
+<b class="fc"><i>43</i>&nbsp;        Controller controller = Controller.getInstance();</b>
+<b class="fc"><i>44</i>&nbsp;        this.currentUser = controller.login(username, password);</b>
+<b class="fc"><i>45</i>&nbsp;        return currentUser;</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-05-20 11:07</div>
+</div>
+</body>
+</html>

@@ -54,14 +54,20 @@ public class GamesDao{
                 Date parsedDate = null;
                 if (date != null) {
                     parsedDate = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy").parse(date);
+
+                    // add date to teamSeasons
+                    teamMap.get(home).setDate(parsedDate);
+                    teamMap.get(away).setDate(parsedDate);
                 }
 
-                Game newGame = new Game(gameID, (Date) parsedDate, teamMap.get(home), teamMap.get(away), seasonLeagueID, field);
+                Game newGame = new Game(gameID,parsedDate, teamMap.get(home), teamMap.get(away), seasonLeagueID, field);
                 res.put(gameID,newGame);
 
                 // add games to the teams
                 teamMap.get(home).addGame(newGame);
                 teamMap.get(away).addGame(newGame);
+
+                // add
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

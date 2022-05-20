@@ -118,10 +118,15 @@ public class Controller {
                 if (game.getDate() != null) {
                     continue;
                 }
-                game.setDate(startCopy);// todo check !
-                cal.add(Calendar.DAY_OF_MONTH, amountTime);
-                startCopy = cal.getTime();
-                gamesRes.add(game.getId());
+                if(game.getHome().availableDate(startCopy) && game.getAway().availableDate(startCopy)) {
+                    game.setDate(startCopy);
+                    game.getHome().setDate(startCopy);
+                    game.getAway().setDate(startCopy);
+                    cal.add(Calendar.DAY_OF_MONTH, amountTime);
+                    startCopy = cal.getTime();
+                    gamesRes.add(game.getId());
+                }
+                else{return null;}
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;

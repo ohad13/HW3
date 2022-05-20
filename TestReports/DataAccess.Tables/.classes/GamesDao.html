@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GamesDao</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">DataAccess.Tables</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GamesDao (DataAccess.Tables)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GamesDao</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    67.2%
+  </span>
+  <span class="absValue">
+    (45/ 67)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package DataAccess.Tables;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import DataAccess.DBConnector;
+<i>4</i>&nbsp;import Domain.Game;
+<i>5</i>&nbsp;import Domain.TeamSeason;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.sql.Connection;
+<i>8</i>&nbsp;import java.sql.ResultSet;
+<i>9</i>&nbsp;import java.sql.SQLException;
+<i>10</i>&nbsp;import java.sql.Statement;
+<i>11</i>&nbsp;import java.text.ParseException;
+<i>12</i>&nbsp;import java.text.SimpleDateFormat;
+<i>13</i>&nbsp;import java.util.Date;
+<i>14</i>&nbsp;import java.util.HashMap;
+<i>15</i>&nbsp;
+<b class="fc"><i>16</i>&nbsp;public class GamesDao{</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public Game get(String id) {
+<i>19</i>&nbsp;//        try {
+<i>20</i>&nbsp;//            Connection conn = DBConnector.getConnection();
+<i>21</i>&nbsp;//            // create league and season from DB
+<i>22</i>&nbsp;//            String sqlLeague = &quot;SELECT * FROM game&quot;;
+<i>23</i>&nbsp;//            Statement stmtLeague = conn.createStatement();
+<i>24</i>&nbsp;//            ResultSet rsLeague = stmtLeague.executeQuery(sqlLeague);
+<i>25</i>&nbsp;//            while (rsLeague.next()) {
+<i>26</i>&nbsp;//                String sleagueID = rsLeague.getString(&quot;id&quot;);
+<i>27</i>&nbsp;//                String sleagueName = rsLeague.getString(&quot;name&quot;);
+<i>28</i>&nbsp;//                League newL = new League(sleagueID,sleagueName);
+<i>29</i>&nbsp;//                return newL;
+<i>30</i>&nbsp;//            }
+<i>31</i>&nbsp;//
+<i>32</i>&nbsp;//        } catch (SQLException throwables) {
+<i>33</i>&nbsp;//            throwables.printStackTrace();
+<i>34</i>&nbsp;//        }
+<b class="nc"><i>35</i>&nbsp;        return null;</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    public HashMap&lt;String,Game&gt; getAll(HashMap&lt;String, TeamSeason&gt; teamMap) {
+<i>39</i>&nbsp;
+<b class="fc"><i>40</i>&nbsp;        HashMap&lt;String,Game&gt; res = new HashMap&lt;String, Game&gt;();</b>
+<i>41</i>&nbsp;        try {
+<b class="fc"><i>42</i>&nbsp;            Connection conn = DBConnector.getConnection();</b>
+<b class="fc"><i>43</i>&nbsp;            String all_games_sql = &quot;SELECT * FROM games&quot;;</b>
+<b class="fc"><i>44</i>&nbsp;            Statement stmt = conn.createStatement();</b>
+<b class="fc"><i>45</i>&nbsp;            ResultSet rs = stmt.executeQuery(all_games_sql);</b>
+<b class="fc"><i>46</i>&nbsp;            while (rs.next()) {</b>
+<b class="fc"><i>47</i>&nbsp;                String gameID = rs.getString(&quot;gameID&quot;);</b>
+<b class="fc"><i>48</i>&nbsp;                String date = rs.getString(&quot;date&quot;);</b>
+<b class="fc"><i>49</i>&nbsp;                String home = rs.getString(&quot;teamHome&quot;);</b>
+<b class="fc"><i>50</i>&nbsp;                String away = rs.getString(&quot;teamAway&quot;);</b>
+<b class="fc"><i>51</i>&nbsp;                String field = rs.getString(&quot;field&quot;);</b>
+<b class="fc"><i>52</i>&nbsp;                String seasonLeagueID = rs.getString(&quot;seasonLeagueID&quot;);</b>
+<i>53</i>&nbsp;
+<b class="fc"><i>54</i>&nbsp;                Date parsedDate = null;</b>
+<b class="fc"><i>55</i>&nbsp;                if (date != null) {</b>
+<b class="fc"><i>56</i>&nbsp;                    parsedDate = new SimpleDateFormat(&quot;E MMM dd HH:mm:ss Z yyyy&quot;).parse(date);</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;                    // add date to teamSeasons
+<b class="fc"><i>59</i>&nbsp;                    teamMap.get(home).setDate(parsedDate);</b>
+<b class="fc"><i>60</i>&nbsp;                    teamMap.get(away).setDate(parsedDate);</b>
+<i>61</i>&nbsp;                }
+<i>62</i>&nbsp;
+<b class="fc"><i>63</i>&nbsp;                Game newGame = new Game(gameID,parsedDate, teamMap.get(home), teamMap.get(away), seasonLeagueID, field);</b>
+<b class="fc"><i>64</i>&nbsp;                res.put(gameID,newGame);</b>
+<b class="fc"><i>65</i>&nbsp;</b>
+<b class="nc"><i>66</i>&nbsp;                // add games to the teams</b>
+<b class="fc"><i>67</i>&nbsp;                teamMap.get(home).addGame(newGame);</b>
+<b class="fc"><i>68</i>&nbsp;                teamMap.get(away).addGame(newGame);</b>
+<b class="nc"><i>69</i>&nbsp;</b>
+<b class="fc"><i>70</i>&nbsp;                // add</b>
+<b class="fc"><i>71</i>&nbsp;            }</b>
+<b class="nc"><i>72</i>&nbsp;        } catch (SQLException throwables) {</b>
+<b class="nc"><i>73</i>&nbsp;            throwables.printStackTrace();</b>
+<b class="nc"><i>74</i>&nbsp;        } catch (ParseException throwables) {</b>
+<b class="nc"><i>75</i>&nbsp;            throwables.printStackTrace();</b>
+<b class="fc"><i>76</i>&nbsp;        }</b>
+<b class="fc"><i>77</i>&nbsp;        return res;</b>
+<b class="nc"><i>78</i>&nbsp;    }</b>
+<i>79</i>&nbsp;
+<b class="nc"><i>80</i>&nbsp;    public void updateGamesDB(HashMap&lt;String, Game&gt; gameMap){</b>
+<b class="fc"><i>81</i>&nbsp;        Connection conn = null;</b>
+<b class="nc"><i>82</i>&nbsp;        try {</b>
+<b class="fc"><i>83</i>&nbsp;            conn = DBConnector.getConnection();</b>
+<b class="fc"><i>84</i>&nbsp;            for(Game game : gameMap.values()){</b>
+<i>85</i>&nbsp;
+<b class="fc"><i>86</i>&nbsp;                String date = &quot;NULL&quot;;</b>
+<b class="fc"><i>87</i>&nbsp;                if(game.getDate() != null) {</b>
+<b class="fc"><i>88</i>&nbsp;                    date = &quot;\&quot;&quot;+game.getDate().toString()+&quot;\&quot;&quot;;</b>
+<b class="nc"><i>89</i>&nbsp;                }</b>
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;
+<b class="nc"><i>92</i>&nbsp;</b>
+<b class="fc"><i>93</i>&nbsp;                String field = &quot;NULL&quot;;</b>
+<b class="fc"><i>94</i>&nbsp;                if(game.getField() != null){</b>
+<b class="fc"><i>95</i>&nbsp;                    field = game.getField();</b>
+<i>96</i>&nbsp;                }
+<b class="nc"><i>97</i>&nbsp;</b>
+<b class="fc"><i>98</i>&nbsp;                String sql = String.format(&quot;INSERT OR REPLACE INTO games (gameID,date,teamHome,teamAway,field,seasonLeagueID) VALUES(%s,%s,%s,%s,%s,\&quot;%s\&quot;)&quot;,</b>
+<b class="fc"><i>99</i>&nbsp;                        game.getId(),date,game.getHome().getId(),game.getAway().getId(),field,game.getSeasonLeague());</b>
+<b class="fc"><i>100</i>&nbsp;                Statement stmt = conn.createStatement();</b>
+<b class="fc"><i>101</i>&nbsp;                stmt.executeUpdate(sql);</b>
+<i>102</i>&nbsp;
+<b class="fc"><i>103</i>&nbsp;            }</b>
+<b class="nc"><i>104</i>&nbsp;</b>
+<b class="nc"><i>105</i>&nbsp;        } catch (SQLException e) {</b>
+<b class="nc"><i>106</i>&nbsp;            System.out.println(e.getMessage());</b>
+<b class="nc"><i>107</i>&nbsp;        }</b>
+<b class="nc"><i>108</i>&nbsp;        finally {</b>
+<b class="nc"><i>109</i>&nbsp;            try {</b>
+<b class="fc"><i>110</i>&nbsp;                if (conn != null) {</b>
+<b class="fc"><i>111</i>&nbsp;                    conn.close();</b>
+<i>112</i>&nbsp;                }
+<b class="nc"><i>113</i>&nbsp;            } catch (SQLException ex) {</b>
+<b class="nc"><i>114</i>&nbsp;                System.out.println(ex.getMessage());</b>
+<b class="fc"><i>115</i>&nbsp;            }</b>
+<b class="nc"><i>116</i>&nbsp;        }</b>
+<b class="fc"><i>117</i>&nbsp;    }</b>
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;//
+<i>120</i>&nbsp;//    @Override
+<i>121</i>&nbsp;//    public void save(Object o) throws SQLException {
+<i>122</i>&nbsp;//
+<i>123</i>&nbsp;//    }
+<i>124</i>&nbsp;//
+<i>125</i>&nbsp;//    @Override
+<i>126</i>&nbsp;//    public void update(Object o, String[] params) {
+<i>127</i>&nbsp;//
+<i>128</i>&nbsp;//    }
+<i>129</i>&nbsp;//
+<i>130</i>&nbsp;//    @Override
+<i>131</i>&nbsp;//    public void delete(Object o) {
+<i>132</i>&nbsp;//
+<i>133</i>&nbsp;//    }
+<i>134</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-05-20 11:07</div>
+</div>
+</body>
+</html>

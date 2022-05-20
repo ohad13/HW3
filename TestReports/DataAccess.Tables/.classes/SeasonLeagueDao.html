@@ -1,0 +1,165 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SeasonLeagueDao</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">DataAccess.Tables</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SeasonLeagueDao (DataAccess.Tables)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SeasonLeagueDao</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84.4%
+  </span>
+  <span class="absValue">
+    (27/ 32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package DataAccess.Tables;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import DataAccess.DBConnector;
+<i>5</i>&nbsp;import Domain.*;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.sql.Connection;
+<i>8</i>&nbsp;import java.sql.ResultSet;
+<i>9</i>&nbsp;import java.sql.SQLException;
+<i>10</i>&nbsp;import java.sql.Statement;
+<i>11</i>&nbsp;import java.text.SimpleDateFormat;
+<i>12</i>&nbsp;import java.util.ArrayList;
+<i>13</i>&nbsp;import java.util.Date;
+<i>14</i>&nbsp;import java.util.HashMap;
+<i>15</i>&nbsp;
+<b class="fc"><i>16</i>&nbsp;public class SeasonLeagueDao{</b>
+<i>17</i>&nbsp;    public SeasonLeague get(String id) {
+<b class="nc"><i>18</i>&nbsp;        return null;</b>
+<i>19</i>&nbsp;    }
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public HashMap&lt;String, SeasonLeague&gt; getAll(HashMap&lt;String, Game&gt; gameMap, HashMap&lt;String, Season&gt; seasonMap, HashMap&lt;String,League&gt; leagueMap) {
+<b class="fc"><i>22</i>&nbsp;        HashMap&lt;String, SeasonLeague&gt; seasonLeagues = new HashMap&lt;String, SeasonLeague&gt;();</b>
+<b class="fc"><i>23</i>&nbsp;        String sql = &quot;SELECT * FROM leagueInSeason&quot;;</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;        try {
+<b class="fc"><i>26</i>&nbsp;            Connection conn = DBConnector.getConnection();</b>
+<b class="fc"><i>27</i>&nbsp;            Statement stmt  = conn.createStatement();</b>
+<b class="fc"><i>28</i>&nbsp;            ResultSet rs    = stmt.executeQuery(sql);</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;            // loop through the result set
+<b class="fc"><i>31</i>&nbsp;            while (rs.next()) {</b>
+<b class="fc"><i>32</i>&nbsp;                String seasonID = rs.getString(&quot;leagueID&quot;);</b>
+<b class="fc"><i>33</i>&nbsp;                String leagueID = rs.getString(&quot;seasonID&quot;);</b>
+<b class="fc"><i>34</i>&nbsp;                String policyType = rs.getString(&quot;policyType&quot;);</b>
+<b class="fc"><i>35</i>&nbsp;                String seasonLeagueKey = leagueID + &quot;_&quot; + seasonID;</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;                // get league and season from DB
+<i>38</i>&nbsp;
+<b class="fc"><i>39</i>&nbsp;                League newL = leagueMap.get(leagueID);</b>
+<b class="fc"><i>40</i>&nbsp;                Season newS = seasonMap.get(seasonID);</b>
+<i>41</i>&nbsp;
+<b class="fc"><i>42</i>&nbsp;                AssignmentPolicy policy = new AssignmentPolicy(policyType); // have!</b>
+<b class="fc"><i>43</i>&nbsp;                SeasonLeague newSL = new SeasonLeague(seasonLeagueKey,newS,newL,policy);</b>
+<b class="fc"><i>44</i>&nbsp;                seasonLeagues.put(seasonLeagueKey,newSL);</b>
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;                newS.addSeasonLeague(newSL);</b>
+<b class="fc"><i>47</i>&nbsp;            }</b>
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;            for(String gameID : gameMap.keySet()){</b>
+<b class="fc"><i>50</i>&nbsp;                Game game = gameMap.get(gameID);</b>
+<b class="fc"><i>51</i>&nbsp;                seasonLeagues.get(game.getSeasonLeague()).setGame(game);</b>
+<b class="fc"><i>52</i>&nbsp;            }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;            try {
+<b class="fc"><i>55</i>&nbsp;                if (conn != null) {</b>
+<b class="fc"><i>56</i>&nbsp;                    conn.close();</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;                }
+<b class="nc"><i>59</i>&nbsp;            } catch (SQLException ex) {</b>
+<b class="nc"><i>60</i>&nbsp;                System.out.println(ex.getMessage());</b>
+<b class="fc"><i>61</i>&nbsp;            }</b>
+<b class="nc"><i>62</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>63</i>&nbsp;            System.out.println(e.getMessage());</b>
+<b class="fc"><i>64</i>&nbsp;        }</b>
+<i>65</i>&nbsp;
+<b class="fc"><i>66</i>&nbsp;        return seasonLeagues;</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;//
+<i>69</i>&nbsp;//    public void save(Object o) throws SQLException {
+<i>70</i>&nbsp;//
+<i>71</i>&nbsp;//    }
+<i>72</i>&nbsp;//
+<i>73</i>&nbsp;//    @Override
+<i>74</i>&nbsp;//    public void update(Object o, String[] params) {
+<i>75</i>&nbsp;//
+<i>76</i>&nbsp;//    }
+<i>77</i>&nbsp;//
+<i>78</i>&nbsp;//    @Override
+<i>79</i>&nbsp;//    public void delete(Object o) {
+<i>80</i>&nbsp;//
+<i>81</i>&nbsp;//    }
+<i>82</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-05-20 11:07</div>
+</div>
+</body>
+</html>

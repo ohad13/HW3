@@ -66,6 +66,7 @@ public class DataAccessController {
         for(Referee ref : refereeMap.values()){
             for(String gameID : ref.getGames()){
                 ref.setDate(gameMap.get(gameID).getDate());
+                gameMap.get(gameID).setReferee(ref);
             }
         }
     }
